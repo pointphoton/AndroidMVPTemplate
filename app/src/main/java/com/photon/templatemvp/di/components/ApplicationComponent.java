@@ -7,11 +7,11 @@ package com.photon.templatemvp.di.components;
 import android.content.Context;
 
 
-import com.photon.templatemvp.data.repository.UserRepository;
+import com.photon.templatemvp.data.repository.GalleryRepository;
 import com.photon.templatemvp.di.modules.ApplicationModule;
 import com.photon.templatemvp.executor.PostExecutionThread;
 import com.photon.templatemvp.executor.ThreadExecutor;
-import com.photon.templatemvp.view.base.BaseActivity;
+import com.photon.templatemvp.view.base.activity.BaseActivity;
 
 import javax.inject.Singleton;
 
@@ -30,7 +30,7 @@ public interface ApplicationComponent {
     Context context();
     ThreadExecutor threadExecutor();
     PostExecutionThread postExecutionThread();
-    UserRepository userRepository();
+    GalleryRepository userRepository();
 
 
 }

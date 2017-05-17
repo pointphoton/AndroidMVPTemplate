@@ -16,23 +16,23 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 
 /**
- * {@link UserRepository} for retrieving user data.
+ * {@link GalleryRepository} for retrieving user data.
  */
 @Singleton
-public class UserDataRepository implements UserRepository {
+public class GalleryDataRepository implements GalleryRepository {
 
     private final UserDataStoreFactory userDataStoreFactory;
     private final UserEntityDataMapper userEntityDataMapper;
 
     /**
-     * Constructs a {@link UserRepository}.
+     * Constructs a {@link GalleryRepository}.
      *
      * @param dataStoreFactory A factory to construct different data source implementations.
      * @param userEntityDataMapper {@link UserEntityDataMapper}.
      */
     @Inject
-    UserDataRepository(UserDataStoreFactory dataStoreFactory,
-                       UserEntityDataMapper userEntityDataMapper) {
+    GalleryDataRepository(UserDataStoreFactory dataStoreFactory,
+                          UserEntityDataMapper userEntityDataMapper) {
         this.userDataStoreFactory = dataStoreFactory;
         this.userEntityDataMapper = userEntityDataMapper;
     }
@@ -50,7 +50,7 @@ public class UserDataRepository implements UserRepository {
     @Override
     public Observable<User> user(int userId) {
         /*
-        Log.d("UserDataRepository","this.userDataStoreFactory.create(userId)");
+        Log.d("GalleryDataRepository","this.userDataStoreFactory.create(userId)");
         final UserDataStore userDataStore = this.userDataStoreFactory.create(userId);
         return userDataStore.userEntityDetails(userId).map(this.userEntityDataMapper::transform);
         */

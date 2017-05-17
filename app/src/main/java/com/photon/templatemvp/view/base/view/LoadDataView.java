@@ -2,7 +2,7 @@
  * Copyright (C) 2014 android10.org. All rights reserved.
  * @author Fernando Cejas (the android10 coder)
  */
-package com.photon.templatemvp.view.base;
+package com.photon.templatemvp.view.base.view;
 
 import android.content.Context;
 

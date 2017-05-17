@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photon.templatemvp.view.presenter;
+package com.photon.templatemvp.view.base.presenter;
 
 /**
  * Interface representing a Presenter in a model view presenter (MVP) pattern.

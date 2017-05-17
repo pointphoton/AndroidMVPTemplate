@@ -3,10 +3,7 @@ package com.photon.templatemvp.view.section.main;
 import android.os.Bundle;
 
 import com.photon.templatemvp.R;
-import com.photon.templatemvp.util.DebugLog;
-import com.photon.templatemvp.view.base.BaseActivity;
-
-import butterknife.OnClick;
+import com.photon.templatemvp.view.base.activity.BaseActivity;
 
 /**
  * Main application screen. This is the app entry point.

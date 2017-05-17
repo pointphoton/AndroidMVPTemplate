@@ -3,7 +3,7 @@
  *
  * @author Fernando Cejas (the android10 coder)
  */
-package com.photon.templatemvp.view.base;
+package com.photon.templatemvp.view.base.fragment;
 
 
 import android.support.v4.app.Fragment;

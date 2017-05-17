@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.photon.templatemvp.R;
 import com.photon.templatemvp.di.HasComponent;
 import com.photon.templatemvp.di.components.GalleryComponent;
-import com.photon.templatemvp.view.base.BaseActivity;
+import com.photon.templatemvp.view.base.activity.BaseActivity;
 import com.photon.templatemvp.view.section.main.MainActivity;
 
 /**

@@ -1,4 +1,4 @@
-package com.photon.templatemvp.view.base;
+package com.photon.templatemvp.view.base.activity;
 
 
 
@@ -16,9 +16,7 @@ import com.photon.templatemvp.view.navigation.Navigator;
 
 import javax.inject.Inject;
 
-/**
- * Created by jumbada on 03/05/2017.
- */
+
 
 /**
  * Base {@link android.app.Activity} class for every Activity in this application.

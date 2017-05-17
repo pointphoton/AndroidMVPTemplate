@@ -29,6 +29,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -304,7 +305,8 @@ public class Utils {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(new Intent(
-                                Settings.ACTION_WIFI_SETTINGS));// .ACTION_NETWORK_OPERATOR_SETTINGS));//.ACTION_WIRELESS_SETTINGS));
+                                Settings.ACTION_WIFI_SETTINGS));//
+                        // .ACTION_NETWORK_OPERATOR_SETTINGS));//.ACTION_WIRELESS_SETTINGS));
                     }
                 });
 
@@ -333,7 +335,8 @@ public class Utils {
      * Showing alert dialog when network is not available in offline mode
      *
      * @param context              application context
-     * @param isConnectionCritical It means if network is necessary dialog will show and cancelable will be false
+     * @param isConnectionCritical It means if network is necessary dialog will show and
+     *                             cancelable will be false
      * @return
      */
     public static AlertDialog showNoInternetConnectionDialogOfflineMsg(
@@ -346,7 +349,8 @@ public class Utils {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(new Intent(
-                                Settings.ACTION_WIFI_SETTINGS));// .ACTION_NETWORK_OPERATOR_SETTINGS));//.ACTION_WIRELESS_SETTINGS));
+                                Settings.ACTION_WIFI_SETTINGS));//
+                        // .ACTION_NETWORK_OPERATOR_SETTINGS));//.ACTION_WIRELESS_SETTINGS));
                     }
                 });
 
@@ -375,7 +379,8 @@ public class Utils {
      * Showing alert dialog when server is not available
      *
      * @param context    Application context
-     * @param isCritical It means if server connection is necessary dialog will show and cancelable will be false
+     * @param isCritical It means if server connection is necessary dialog will show and
+     *                   cancelable will be false
      * @return
      */
     public static AlertDialog showServerNotAvailableDialog(
@@ -447,7 +452,8 @@ public class Utils {
      * @param view    Edit text or another view that you want hide the keyboard
      */
     public static void showKeyboard(Context context, @NonNull View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService
+                (Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
@@ -459,8 +465,10 @@ public class Utils {
      * @param view    Edit text or another view that you want hide the keyboard
      */
     public static void hideKeyboard(Context context, @NonNull View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService
+                (Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager
+                .HIDE_NOT_ALWAYS);
     }
 
     /**
@@ -741,7 +749,8 @@ public class Utils {
      * @throws UnsupportedEncodingException
      * @throws NameNotFoundException
      */
-    public static HashMap<String, String> getDeviceInfoParamsForUrl(Context context) throws UnsupportedEncodingException, NameNotFoundException {
+    public static HashMap<String, String> getDeviceInfoParamsForUrl(Context context) throws
+            UnsupportedEncodingException, NameNotFoundException {
         if (deviceInfoParams == null) {
             deviceInfoParams = new HashMap<>();
 
@@ -753,8 +762,10 @@ public class Utils {
             deviceInfoParams.put("mobileId", Utils.getMobileId());
             deviceInfoParams.put("mobileProduct", Utils.getMobileProduct());
             deviceInfoParams.put("applicationName", Utils.getApplicationName(context));
-            deviceInfoParams.put("applicationVersionName", Utils.getApplicationVersionName(context));
-            deviceInfoParams.put("applicationVersionCode", Utils.getApplicationVersionCode(context) + "");
+            deviceInfoParams.put("applicationVersionName", Utils.getApplicationVersionName
+                    (context));
+            deviceInfoParams.put("applicationVersionCode", Utils.getApplicationVersionCode
+                    (context) + "");
             deviceInfoParams.put("screenWidth", Utils.getDisplayWidth(context) + "");
             deviceInfoParams.put("screenHeight", Utils.getDisplayWidth(context) + "");
             deviceInfoParams.put("screenDensity", Utils.getDisplayDensity(context) + "");
@@ -828,7 +839,8 @@ public class Utils {
     }
 
     /**
-     * Making a string of currency and convert it to a format with separators with specific separator
+     * Making a string of currency and convert it to a format with separators with specific
+     * separator
      *
      * @param value     Money value
      * @param separator Your specific separator
@@ -965,16 +977,20 @@ public class Utils {
 
     public static String getFrontPackageName(Context ctx) {
 
-        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context
+                .ACTIVITY_SERVICE);
 
-        List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
+        List<ActivityManager.RunningAppProcessInfo> processes = activityManager
+                .getRunningAppProcesses();
 
         return processes.get(0).processName;
     }
 
     public static boolean isMyServiceRunning(Context ctx, String serviceClassName) {
-        final ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-        final List<RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
+        final ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context
+                .ACTIVITY_SERVICE);
+        final List<RunningServiceInfo> services = activityManager.getRunningServices(Integer
+                .MAX_VALUE);
 
         for (RunningServiceInfo runningServiceInfo : services) {
             if (runningServiceInfo.service.getClassName().equalsIgnoreCase(serviceClassName)) {
@@ -1002,7 +1018,8 @@ public class Utils {
      */
     public static String getIPAddress(boolean useIPv4) {
         try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface
+                    .getNetworkInterfaces());
             for (NetworkInterface intf : interfaces) {
                 List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
                 for (InetAddress addr : addrs) {
@@ -1017,7 +1034,8 @@ public class Utils {
                         } else {
                             if (!isIPv4) {
                                 int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
-                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0,
+                                        delim).toUpperCase();
                             }
                         }
                     }
@@ -1047,7 +1065,8 @@ public class Utils {
      * @return isPortrait
      */
     public static boolean isPortrait(Context context) {
-        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        return context.getResources().getConfiguration().orientation == Configuration
+                .ORIENTATION_PORTRAIT;
     }
 
     /**
@@ -1122,5 +1141,34 @@ public class Utils {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return spannableString;
+    }
+
+    /**
+     * Ensures that an object reference passed as a parameter to the calling method is not null.
+     * @param reference    an object reference     *
+     * @return the non-null reference that was validated
+     * @throws NullPointerException if {@code reference} is null
+     */
+    public static <T> T checkNotNull(T reference) {
+        if (reference == null) {
+            throw new NullPointerException();
+        }
+        return reference;
+    }
+
+
+    /**
+     * Ensures that an object reference passed as a parameter to the calling method is not null.
+     *
+     * @param reference    an object reference
+     * @param errorMessage the exception message to use if the check fails; will be converted to a string using {@link String#valueOf(Object)}
+     * @return the non-null reference that was validated
+     * @throws NullPointerException if {@code reference} is null
+     */
+    public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
+        if (reference == null) {
+            throw new NullPointerException(String.valueOf(errorMessage));
+        }
+        return reference;
     }
 }

@@ -3,6 +3,7 @@ package com.photon.templatemvp.di.components;
 import com.photon.templatemvp.di.PerActivity;
 import com.photon.templatemvp.di.modules.ActivityModule;
 import com.photon.templatemvp.di.modules.UserModule;
+import com.photon.templatemvp.view.section.gallery.GalleryFragment;
 
 import dagger.Component;
 
@@ -14,7 +15,7 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, UserModule.class})
 public interface GalleryComponent extends ActivityComponent {
-    // void inject(UserListFragment userListFragment);
+     void inject(GalleryFragment galleryFragment);
 
 }
 

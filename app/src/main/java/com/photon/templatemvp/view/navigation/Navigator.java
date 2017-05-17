@@ -8,7 +8,7 @@ import android.content.Intent;
 
 
 import com.photon.templatemvp.R;
-import com.photon.templatemvp.view.base.BaseActivity;
+import com.photon.templatemvp.view.base.activity.BaseActivity;
 import com.photon.templatemvp.view.section.gallery.GalleryActivity;
 
 import javax.inject.Inject;

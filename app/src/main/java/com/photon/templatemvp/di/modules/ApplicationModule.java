@@ -9,8 +9,8 @@ import android.content.Context;
 
 import com.photon.templatemvp.BuildConfig;
 import com.photon.templatemvp.application.JumbadaApp;
-import com.photon.templatemvp.data.repository.UserDataRepository;
-import com.photon.templatemvp.data.repository.UserRepository;
+import com.photon.templatemvp.data.repository.GalleryDataRepository;
+import com.photon.templatemvp.data.repository.GalleryRepository;
 import com.photon.templatemvp.data.util.AppConstant;
 import com.photon.templatemvp.data.util.StateManager;
 import com.photon.templatemvp.data.util.StateManagerImpl;
@@ -65,7 +65,7 @@ public class ApplicationModule {
     */
 
     @Provides @Singleton
-    UserRepository provideUserRepository(UserDataRepository userDataRepository) {
+    GalleryRepository provideUserRepository(GalleryDataRepository userDataRepository) {
         return userDataRepository;
     }
 
