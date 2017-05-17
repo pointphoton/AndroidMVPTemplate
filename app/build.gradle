@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    def global = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion global.getAt("androidCompileSdkVersion")
+    buildToolsVersion global.getAt("androidBuildToolsVersion")
+    defaultConfig {
+        applicationId global.getAt("androidApplicationId")
+        minSdkVersion global.getAt("androidMinSdkVersion")
+        targetSdkVersion global.getAt("androidTargetSdkVersion")
+        versionCode global.getAt("androidVersionCode")
+        versionName global.getAt("androidVersionName")
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/activities',
+                            'src/main/res/layouts/fragments',
+                            'src/main/res/layouts/rows',
+                            'src/main/res/layouts/toolbars',
+                            'src/main/res/layouts/views',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+        disable 'RestrictedApi'             //Required for using some methods of the BottomNavigationMenuView at helper class so as to implement java reflection.
+    }
+    /*
+  signingConfigs {
+      debug {
+          storeFile file('../buildsystem/debug.keystore')
+          storePassword 'android'
+          keyAlias 'androiddebugkey'
+          keyPassword 'android'
+      }
+  }
+  */
+    buildTypes {
+        release {
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            //        signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    def libraryDependencies = rootProject.ext.libraryDependencies
+    def supportDependencies = rootProject.ext.supportDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+//library
+    annotationProcessor libraryDependencies.daggerCompiler
+    compile libraryDependencies.dagger
+    annotationProcessor libraryDependencies.butterKnifeCompiler
+    compile libraryDependencies.butterKnife
+    compile libraryDependencies.rxJava
+    compile libraryDependencies.rxAndroid
+    compile libraryDependencies.okhttp
+    compile libraryDependencies.okhttpLogging
+    compile libraryDependencies.retrofit
+    compile libraryDependencies.retrofitConverter
+    compile libraryDependencies.retrofitAdapter
+    compile libraryDependencies.gson
+   // compile libraryDependencies.arrow
+    compile libraryDependencies.javaxInject
+    provided libraryDependencies.javaxAnnotation
+
+//support
+    compile supportDependencies.recyclerView
+    compile supportDependencies.appcompat
+    compile supportDependencies.support
+    compile supportDependencies.design
+    compile supportDependencies.constraintLayout
+    compile supportDependencies.androidAnnotations
+    //Development
+    compile developmentDependencies.leakCanary
+}

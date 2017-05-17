@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">TemplateMVP</string>
+    <string name="enter_the_room">Enter The Room</string>
+    <!--//Exception messages-->
+    <string name="exception_message_generic">There was an application error</string>
+    <string name="exception_message_no_connection">There is no internet connection</string>
+    <string name="exception_message_user_not_found">Cannot retrieve user data. Check your internet connection</string>
+
+    <!--//from hack-->
+    <string name="main_title">Characters</string>
+    <string name="character_label">Character:</string>
+    <string name="character_hint">Enter name...</string>
+    <string name="show">Show</string>
+    <string name="offline_message">No internet connection, Offline data!</string>
+    <string name="go_online">Go Online</string>
+    <string name="retry_message">An error happened</string>
+    <string name="retry">Retry</string>
+    <string name="character_error">please enter a character name</string>
+    <string name="please_wait">Loading data, please wait…</string>
+    <string name="no_result">The entered name is wrong</string>
+    <string name="recent_searches_label">Your recent searches:</string>
+    <string name="no_recent">no recent search</string>
+    <string name="utils__no_connection">utils__no_connection</string>
+    <string name="utils__no_connection_title">utils__no_connection_title</string>
+    <string name="utils__settings">utils__settings</string>
+    <string name="utils__exit">utils__exit</string>
+    <string name="utils__abort">utils__abort</string>
+    <string name="utils__offline">utils__offline</string>
+    <string name="utils__no_server">utils__no_server</string>
+    <string name="utils__no_server_title">utils__no_server_title</string>
+
+<!--//from clean-->
+    <string name="activity_title_user_list">Users List</string>
+    <string name="activity_title_user_details">User Details</string>
+
+    <string name="btn_text_load_data">Load Sample Data</string>
+    <string name="btn_text_retry">Retry</string>
+
+    <string name="view_text_email">Email:</string>
+    <string name="view_text_followers">Followers:</string>
+    <string name="view_text_description">Description:</string>
+
+    <string name="string_content_description">Non accessible view</string>
+
+
+</resources>
