@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.photon.templatemvp.R;
 import com.photon.templatemvp.di.HasComponent;
+import com.photon.templatemvp.di.components.DaggerGalleryComponent;
 import com.photon.templatemvp.di.components.GalleryComponent;
 import com.photon.templatemvp.view.base.activity.BaseActivity;
 import com.photon.templatemvp.view.section.main.MainActivity;
@@ -28,7 +29,17 @@ public class GalleryActivity extends BaseActivity implements HasComponent<Galler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.initializeInjector();
+        if (savedInstanceState == null) {
+            addFragment(R.id.galleryFragmentContainer, new GalleryFragment());
+        }
+    }
 
+    private void initializeInjector() {
+        this.galleryComponent = DaggerGalleryComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
     }
 
     @Override
@@ -42,6 +53,6 @@ public class GalleryActivity extends BaseActivity implements HasComponent<Galler
         backWithExitAnimation();
     }
     public static Intent getCallingIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        return new Intent(context, GalleryActivity.class);
     }
 }

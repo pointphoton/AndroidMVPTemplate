@@ -8,9 +8,10 @@ import android.content.Context;
 
 
 import com.photon.templatemvp.BuildConfig;
-import com.photon.templatemvp.application.JumbadaApp;
-import com.photon.templatemvp.data.repository.GalleryDataRepository;
-import com.photon.templatemvp.data.repository.GalleryRepository;
+import com.photon.templatemvp.application.TemplateApp;
+import com.photon.templatemvp.data.repository.gallery.GalleryDataRepository;
+import com.photon.templatemvp.data.repository.gallery.GalleryRepository;
+import com.photon.templatemvp.data.repository.gallery.datasource.GalleryDataStore;
 import com.photon.templatemvp.data.util.AppConstant;
 import com.photon.templatemvp.data.util.StateManager;
 import com.photon.templatemvp.data.util.StateManagerImpl;
@@ -35,9 +36,9 @@ import okhttp3.HttpUrl;
  */
 @Module
 public class ApplicationModule {
-    private final JumbadaApp application;
+    private final TemplateApp application;
 
-    public ApplicationModule(JumbadaApp application) {
+    public ApplicationModule(TemplateApp application) {
         this.application = application;
     }
 
@@ -65,85 +66,14 @@ public class ApplicationModule {
     */
 
     @Provides @Singleton
-    GalleryRepository provideUserRepository(GalleryDataRepository userDataRepository) {
-        return userDataRepository;
+    GalleryRepository provideGalleryRepository(GalleryDataRepository galleryDataRepository) {
+        return galleryDataRepository;
     }
 
 
 
-    @Provides
-    @Singleton
-    @Named("isDebug")
-    boolean provideIsDebug() {
-        return BuildConfig.DEBUG;
-    }
-
-    @Provides
-    @Singleton
-    @Named("networkTimeoutInSeconds")
-    int provideNetworkTimeoutInSeconds() {
-        return AppConstant.NETWORK_CONNECTION_TIMEOUT;
-    }
-
-    @Provides
-    @Singleton
-    HttpUrl provideEndpoint() {
-        return HttpUrl.parse(AppConstant.BASE_URL);
-    }
-
-    @Provides
-    @Singleton
-    SchedulerProvider provideAppScheduler() {
-        return new AppSchedulerProvider();
-    }
-
-    @Provides
-    @Singleton
-    @Named("cacheSize")
-    long provideCacheSize() {
-        return AppConstant.CACHE_SIZE;
-    }
-
-    @Provides
-    @Singleton
-    @Named("cacheMaxAge")
-    int provideCacheMaxAgeMinutes() {
-        return AppConstant.CACHE_MAX_AGE;
-    }
-
-    @Provides
-    @Singleton
-    @Named("cacheMaxStale")
-    int provideCacheMaxStaleDays() {
-        return AppConstant.CACHE_MAX_STALE;
-    }
-
-    @Provides
-    @Singleton
-    @Named("retryCount")
-    public int provideApiRetryCount() {
-        return AppConstant.API_RETRY_COUNT;
-    }
-
-    @Provides
-    @Singleton
-    @Named("cacheDir")
-    File provideCacheDir(Context context) {
-        return context.getCacheDir();
-    }
-
-    @Provides
-    @Named("isConnect")
-    boolean provideIsConnect(Context context) {
-        return Utils.isConnected(context);
-    }
 
 
-    @Provides
-    @Singleton
-    public StateManager provideStateManager(StateManagerImpl stateManager) {
-        return stateManager;
-    }
 
 
 }

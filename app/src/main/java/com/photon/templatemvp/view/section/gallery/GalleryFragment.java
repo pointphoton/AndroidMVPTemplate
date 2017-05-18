@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.photon.templatemvp.R;
@@ -53,7 +54,7 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
     @BindView(R.id.rl_retry)
     RelativeLayout rl_retry;
     @BindView(R.id.bt_retry)
-    RelativeLayout bt_retry;
+    Button bt_retry;
 
     private CarListListener carListListener;
 

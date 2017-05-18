@@ -13,31 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photon.templatemvp.data.repository;
+package com.photon.templatemvp.iteractor;
 
-
-
-
-
-import com.photon.templatemvp.data.entity.UserEntity;
-
-import java.util.List;
-
-import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
- * Interface that represents a data store from where data is retrieved.
+ * Default {@link DisposableObserver} base class to be used whenever you want default error handling.
  */
-public interface UserDataStore {
-  /**
-   * Get an {@link Observable} which will emit a List of {@link UserEntity}.
-   */
-  Observable<List<UserEntity>> userEntityList();
+public class DefaultObserver<T> extends DisposableObserver<T> {
+  @Override public void onNext(T t) {
+    // no-op by default.
+  }
 
-  /**
-   * Get an {@link Observable} which will emit a {@link UserEntity} by its id.
-   *
-   * @param userId The id to retrieve user data.
-   */
-  Observable<UserEntity> userEntityDetails(final int userId);
+  @Override public void onComplete() {
+    // no-op by default.
+  }
+
+  @Override public void onError(Throwable exception) {
+    // no-op by default.
+  }
 }

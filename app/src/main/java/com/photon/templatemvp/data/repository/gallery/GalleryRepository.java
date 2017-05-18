@@ -1,4 +1,4 @@
-package com.photon.templatemvp.data.repository;
+package com.photon.templatemvp.data.repository.gallery;
 
 import  com.photon.templatemvp.data.model.User;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
@@ -17,7 +17,7 @@ public interface GalleryRepository {
     /**
      * Get an {@link rx.Observable} which will emit a List of {@link  com.photon.templatemvp.data.model.gallery.GalleryModel}.
      */
-    Observable<List<GalleryModel>> users();
+    Observable<List<GalleryModel>> galleryModels();
 
     /**
      * Get an {@link rx.Observable} which will emit a {@link  com.photon.templatemvp.data.model.gallery.GalleryModel}.

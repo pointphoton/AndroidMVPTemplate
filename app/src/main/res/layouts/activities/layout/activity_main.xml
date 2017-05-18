@@ -38,7 +38,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/mainEnterButton"
+        android:id="@+id/mainButtonEnter"
         android:layout_width="180dp"
         android:layout_height="80dp"
         android:text="@string/enter_the_room"

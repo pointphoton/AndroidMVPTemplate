@@ -3,9 +3,18 @@ package com.photon.templatemvp.view.section.gallery;
 import android.support.annotation.NonNull;
 
 import com.photon.templatemvp.data.model.gallery.Car;
+import com.photon.templatemvp.data.model.gallery.GalleryModel;
 import com.photon.templatemvp.di.PerActivity;
+import com.photon.templatemvp.exception.DefaultErrorBundle;
+import com.photon.templatemvp.iteractor.DefaultObserver;
+import com.photon.templatemvp.iteractor.gallery.GalleryUseCase;
 import com.photon.templatemvp.util.DebugLog;
 import com.photon.templatemvp.view.base.presenter.Presenter;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation layer.
@@ -14,6 +23,13 @@ import com.photon.templatemvp.view.base.presenter.Presenter;
 public class GalleryPresenter implements Presenter{
 
     private GalleryView viewGalleryView;
+    private final GalleryUseCase galleryUseCase;
+
+    @Inject
+    public GalleryPresenter(GalleryUseCase galleryUseCase) {
+        this.galleryUseCase = galleryUseCase;
+
+    }
 
 
     public void setView(@NonNull GalleryView view) {
@@ -90,6 +106,34 @@ public class GalleryPresenter implements Presenter{
     private void getCarList() {
         DebugLog.write();
         DebugLog.write("GetUserList getUserListUseCase.execute(new UserListObserver(), null)");
-       // this.getUserListUseCase.execute(new UserListObserver(), null);
+       this.galleryUseCase.execute(new GalleryObserver(), null);
+    }
+
+    private final class GalleryObserver extends DefaultObserver<GalleryModel> {
+        {
+            DebugLog.write("GalleryObserver extends DefaultObserver<GalleryModel>");
+        }
+
+        @Override public void onComplete() {
+            DebugLog.write("GalleryObserver onComplete() ");
+            DebugLog.write("GalleryObserver.this.hideViewLoading() ");
+            GalleryPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            DebugLog.write("GalleryObserver onError(Throwable e)");
+            DebugLog.write("GalleryPresenter.this.hideViewLoading() ");
+            GalleryPresenter.this.hideViewLoading();
+            DebugLog.write("GalleryPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e)");
+           // GalleryPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            DebugLog.write("UserListPresenter.this.showViewRetry()");
+            GalleryPresenter.this.showViewRetry();
+        }
+
+        @Override public void onNext(GalleryModel model) {
+            DebugLog.write("GalleryObserver onNext(List<User> users) ");
+            DebugLog.write("UserListPresenter.this.showUsersCollectionInView(users)");
+          //  GalleryPresenter.this.showUsersCollectionInView(users);
+        }
     }
 }

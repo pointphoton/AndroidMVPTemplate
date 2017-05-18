@@ -24,6 +24,10 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
     }
     sourceSets {
         main {
@@ -61,17 +65,23 @@ android {
   */
     buildTypes {
         release {
-
+            buildConfigField "Boolean", "DEBUG_MODE", "false"
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug{
+            buildConfigField "Boolean", "DEBUG_MODE", "true"
             //        signingConfig signingConfigs.debug
         }
+
+        }
     }
-}
+
+
 
 dependencies {
+
     def libraryDependencies = rootProject.ext.libraryDependencies
     def supportDependencies = rootProject.ext.supportDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies

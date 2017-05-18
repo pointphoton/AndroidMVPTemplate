@@ -3,6 +3,8 @@ package com.photon.templatemvp.application;
 import android.app.Application;
 
 import com.photon.templatemvp.di.components.ApplicationComponent;
+import com.photon.templatemvp.di.components.DaggerApplicationComponent;
+import com.photon.templatemvp.di.modules.ApplicationModule;
 import com.squareup.leakcanary.BuildConfig;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -10,7 +12,7 @@ import com.squareup.leakcanary.LeakCanary;
  * Created by jumbada on 11/05/2017.
  */
 
-public class JumbadaApp  extends Application {
+public class TemplateApp extends Application {
 
     private ApplicationComponent applicationComponent;
 
@@ -22,11 +24,12 @@ public class JumbadaApp  extends Application {
 
 
     private void initializeInjector() {
-/*
+
         this.applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-                */
+
+
 
     }
 

@@ -7,7 +7,7 @@ package com.photon.templatemvp.di.components;
 import android.content.Context;
 
 
-import com.photon.templatemvp.data.repository.GalleryRepository;
+import com.photon.templatemvp.data.repository.gallery.GalleryRepository;
 import com.photon.templatemvp.di.modules.ApplicationModule;
 import com.photon.templatemvp.executor.PostExecutionThread;
 import com.photon.templatemvp.executor.ThreadExecutor;

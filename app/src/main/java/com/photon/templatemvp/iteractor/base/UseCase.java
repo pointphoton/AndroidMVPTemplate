@@ -26,7 +26,7 @@ public abstract class UseCase<T, Params> {
     private final PostExecutionThread postExecutionThread;
     private final CompositeDisposable disposables;
 
-    UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    protected UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         this.threadExecutor = threadExecutor;
         this.postExecutionThread = postExecutionThread;
         this.disposables = new CompositeDisposable();
@@ -35,7 +35,7 @@ public abstract class UseCase<T, Params> {
     /**
      * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
      */
-    abstract Observable<T> buildUseCaseObservable(Params params);
+    protected abstract Observable<T> buildUseCaseObservable(Params params);
 
 
     /**

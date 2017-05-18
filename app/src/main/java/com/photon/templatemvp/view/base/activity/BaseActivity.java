@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.photon.templatemvp.R;
-import com.photon.templatemvp.application.JumbadaApp;
+import com.photon.templatemvp.application.TemplateApp;
 import com.photon.templatemvp.di.components.ApplicationComponent;
 import com.photon.templatemvp.di.modules.ActivityModule;
 import com.photon.templatemvp.view.navigation.Navigator;
@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-   protected Navigator navigator;
+    protected Navigator navigator;
 
     public abstract int getLayoutId();
 
@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return {@link  com.photon.templatemvp.di.components.ApplicationComponent}
      */
     protected ApplicationComponent getApplicationComponent() {
-        return ((JumbadaApp) getApplication()).getApplicationComponent();
+        return ((TemplateApp) getApplication()).getApplicationComponent();
     }
 
     /**

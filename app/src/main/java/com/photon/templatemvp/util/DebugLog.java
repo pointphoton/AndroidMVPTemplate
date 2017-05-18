@@ -15,7 +15,7 @@ public class DebugLog {
      */
 
     public static void write(){
-        if (BuildConfig.DEBUG){
+
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
             String fileName = stackTrace.getFileName();
             if (fileName == null)
@@ -24,12 +24,12 @@ public class DebugLog {
                     + stackTrace.getLineNumber() + ")";
             final String searcherMark = " *** ";
             Log.d("", info + searcherMark );
-        }
+
     }
 
 
     public static void write(final String message){
-        if (BuildConfig.DEBUG){
+
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
             String fileName = stackTrace.getFileName();
             if (fileName == null)
@@ -38,11 +38,11 @@ public class DebugLog {
                     + stackTrace.getLineNumber() + ")";
             final String searcherMark = " *** ";
             Log.d("", info + searcherMark + " : "  + message);
-        }
+
     }
 
   public static void write(final String className,final String message){
-      if (BuildConfig.DEBUG){
+
           final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
           String fileName = stackTrace.getFileName();
           if (fileName == null)
@@ -51,7 +51,7 @@ public class DebugLog {
                   + stackTrace.getLineNumber() + ")";
           final String searcherMark = " *** ";
           Log.d(""+className, info + searcherMark +  " : "  + message);
-      }
+
   }
 
 }
