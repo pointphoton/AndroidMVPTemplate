@@ -15,34 +15,34 @@ public class DebugLog {
      */
 
     public static void write(){
-
+if(BuildConfig.DEBUG_MODE){
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
             String fileName = stackTrace.getFileName();
             if (fileName == null)
                 fileName = "";  // It is necessary if you want to use proguard obfuscation.
             final String info = stackTrace.getMethodName() + " (" + fileName + ":"
                     + stackTrace.getLineNumber() + ")";
-            final String searcherMark = " *** ";
-            Log.d("", info + searcherMark );
+
+            Log.d("***", info  );}
 
     }
 
 
     public static void write(final String message){
-
+        if(BuildConfig.DEBUG_MODE){
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
             String fileName = stackTrace.getFileName();
             if (fileName == null)
                 fileName = "";  // It is necessary if you want to use proguard obfuscation.
             final String info = stackTrace.getMethodName() + " (" + fileName + ":"
                     + stackTrace.getLineNumber() + ")";
-            final String searcherMark = " *** ";
-            Log.d("", info + searcherMark + " : "  + message);
+
+            Log.d("***", info +  " : "  + message);}
 
     }
 
   public static void write(final String className,final String message){
-
+      if(BuildConfig.DEBUG_MODE){
           final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
           String fileName = stackTrace.getFileName();
           if (fileName == null)
@@ -50,7 +50,7 @@ public class DebugLog {
           final String info = stackTrace.getMethodName() + " (" + fileName + ":"
                   + stackTrace.getLineNumber() + ")";
           final String searcherMark = " *** ";
-          Log.d(""+className, info + searcherMark +  " : "  + message);
+          Log.d(""+className, info + searcherMark +  " : "  + message);}
 
   }
 

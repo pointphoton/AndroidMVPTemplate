@@ -2,16 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
 
-    def global = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion global.getAt("androidCompileSdkVersion")
-    buildToolsVersion global.getAt("androidBuildToolsVersion")
+
+
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.2"
     defaultConfig {
-        applicationId global.getAt("androidApplicationId")
-        minSdkVersion global.getAt("androidMinSdkVersion")
-        targetSdkVersion global.getAt("androidTargetSdkVersion")
-        versionCode global.getAt("androidVersionCode")
-        versionName global.getAt("androidVersionName")
+        applicationId = "com.jumbada.jumbada"
+        minSdkVersion  16
+        targetSdkVersion  25
+        versionCode = 1
+        versionName = "1.0"
     }
 
     compileOptions {
@@ -71,6 +72,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug{
+            debuggable true
             buildConfigField "Boolean", "DEBUG_MODE", "true"
             //        signingConfig signingConfigs.debug
         }

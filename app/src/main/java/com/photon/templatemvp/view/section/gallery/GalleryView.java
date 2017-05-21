@@ -15,9 +15,9 @@ public interface GalleryView extends LoadDataView {
     /**
      * Render a car list in the UI.
      *
-     * @param entryModelCollection The collection of {@link GalleryModel} that will be shown.
+     * @param galleryCarCollection The collection of {@link Car} that will be shown.
      */
-    void renderUserList(Collection<GalleryModel> entryModelCollection);
+    void renderUserList(Collection<Car> galleryCarCollection);
 
     /**
      * Render a car in the UI.

@@ -80,6 +80,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.CarViewH
 
     public void setCarsCollection(Collection<Car> carsCollection) {
         DebugLog.write();
+        DebugLog.write("this.validateCarsCollection(carsCollection)");
         this.validateCarsCollection(carsCollection);
         this.carsCollection = (List<Car>) carsCollection;
         this.notifyDataSetChanged();

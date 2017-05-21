@@ -1,11 +1,14 @@
 package com.photon.templatemvp.data.repository.gallery;
 
+
+
 import  com.photon.templatemvp.data.model.User;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 /**
  * Created by jumbada on 11/05/2017.
  */

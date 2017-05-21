@@ -9,6 +9,7 @@ import com.photon.templatemvp.data.cache.GalleryCache;
 import com.photon.templatemvp.data.mapper.GalleryModelJsonMapper;
 import com.photon.templatemvp.data.remote.MockyApi;
 import com.photon.templatemvp.data.remote.MockyApiImpl;
+import com.photon.templatemvp.data.remote.ServiceGeneratorImpl;
 import com.photon.templatemvp.util.DebugLog;
 
 import javax.inject.Inject;
@@ -20,11 +21,12 @@ public class GalleryDataStoreFactory {
 
     private final Context context;
    private final GalleryCache galleryCache;
-
+private  final ServiceGeneratorImpl generator ;
     @Inject
-    GalleryDataStoreFactory(@NonNull Context context) {
+    GalleryDataStoreFactory(@NonNull Context context, ServiceGeneratorImpl generator) {
         this.context = context.getApplicationContext();
         galleryCache = null;
+        this.generator = generator;
            }
 
     /**
@@ -42,7 +44,7 @@ public class GalleryDataStoreFactory {
      */
     public GalleryDataStore createCloudDataStore() {
         final GalleryModelJsonMapper galleryModelJsonMapper = new GalleryModelJsonMapper();
-        final MockyApi restApi = new MockyApiImpl(this.context, galleryModelJsonMapper) {
+        final MockyApi restApi = new MockyApiImpl(this.context, galleryModelJsonMapper,generator) {
         };
         return new CloudGalleryDataStore(restApi, this.galleryCache);
 

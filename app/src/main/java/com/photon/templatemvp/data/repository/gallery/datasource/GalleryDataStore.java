@@ -4,11 +4,14 @@ package com.photon.templatemvp.data.repository.gallery.datasource;
  * Created by jumbada on 18/05/2017.
  */
 
+
+
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 
 /**
  * Interface that represents a data store from where data is retrieved.

@@ -1,11 +1,11 @@
 package com.photon.templatemvp.view.base.activity;
 
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 
 import com.photon.templatemvp.R;
@@ -17,7 +17,6 @@ import com.photon.templatemvp.view.navigation.Navigator;
 import javax.inject.Inject;
 
 
-
 /**
  * Base {@link android.app.Activity} class for every Activity in this application.
  */
@@ -26,11 +25,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Inject
     protected Navigator navigator;
 
-    public abstract int getLayoutId();
+    protected abstract int getLayoutId();
+
+    protected abstract boolean requestFeatureIntermediateProgress();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (requestFeatureIntermediateProgress()) {
+            requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        }
         setContentView(getLayoutId());
         this.getApplicationComponent().inject(this);
     }
@@ -39,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Adds a {@link Fragment} to this activity's layout.
      *
      * @param containerViewId The container view to where add the fragment.
-     * @param fragment The fragment to be added.
+     * @param fragment        The fragment to be added.
      */
     protected void addFragment(int containerViewId, Fragment fragment) {
         final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
@@ -66,11 +70,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-
     /**
-    *  Adds leaving transition effect.
-    */
-    protected void backWithExitAnimation(){
+     * Adds leaving transition effect.
+     */
+    protected void backWithExitAnimation() {
         this.overridePendingTransition(R.anim.anim_slide_in_right,
                 R.anim.anim_slide_out_right);
     }

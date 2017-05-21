@@ -2,6 +2,7 @@ package com.photon.templatemvp.view.section.gallery;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -57,6 +59,7 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
     Button bt_retry;
 
     private CarListListener carListListener;
+    private Unbinder unbinder;
 
     public GalleryFragment() {
         DebugLog.write("setRetainInstance(true)");
@@ -99,7 +102,8 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
             Bundle savedInstanceState) {
         DebugLog.write();
         final View fragmentView = inflater.inflate(R.layout.fragment_gallery, container, false);
-        ButterKnife.bind(this, fragmentView);
+       unbinder = ButterKnife.bind(this, fragmentView);
+
         setupRecyclerView();
         return fragmentView;
     }
@@ -116,31 +120,78 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    DebugLog.write();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        DebugLog.write();
+    this.galleryPresenter.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        DebugLog.write();
+    this.galleryPresenter.pause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    DebugLog.write();
+    mGalleryRecyclerViewCars.setAdapter(null);
+    unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    DebugLog.write();
+    this.galleryPresenter.destroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        DebugLog.write();
+    this.carListListener = null;
+    }
 
     @Override
     public void showLoading() {
-
+        DebugLog.write();
+        this.rl_progress.setVisibility(View.VISIBLE);
+        this.getActivity().setProgressBarIndeterminateVisibility(true);
     }
 
     @Override
     public void hideLoading() {
-
+DebugLog.write();
+        this.rl_progress.setVisibility(View.GONE);
+        this.getActivity().setProgressBarIndeterminateVisibility(false);
     }
 
     @Override
     public void showRetry() {
-
+        DebugLog.write();
+        this.rl_retry.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideRetry() {
-
+        DebugLog.write();
+        this.rl_retry.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        DebugLog.write("LoadDataView showError(String message)");
+        this.showToastMessage(message);
     }
 
     @Override
@@ -150,12 +201,19 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
     }
 
     @Override
-    public void renderUserList(Collection<GalleryModel> entryModelCollection) {
-
+    public void renderUserList(Collection<Car> galleryCarCollection) {
+    DebugLog.write();
+    DebugLog.write("this.galleryAdapter.setCarsCollection(galleryCarCollection)");
+    this.galleryAdapter.setCarsCollection(galleryCarCollection);
     }
 
     @Override
     public void showCarModel(Car car) {
+        DebugLog.write();
+        if (this.carListListener != null){
+            DebugLog.write("this.carListListener.onCarClicked(car)");
+            this.carListListener.onCarClicked(car);
+        }
 
     }
 

@@ -7,6 +7,7 @@ package com.photon.templatemvp.di.components;
 import android.content.Context;
 
 
+import com.photon.templatemvp.data.remote.ServiceGeneratorImpl;
 import com.photon.templatemvp.data.repository.gallery.GalleryRepository;
 import com.photon.templatemvp.di.modules.ApplicationModule;
 import com.photon.templatemvp.executor.PostExecutionThread;
@@ -31,6 +32,6 @@ public interface ApplicationComponent {
     ThreadExecutor threadExecutor();
     PostExecutionThread postExecutionThread();
     GalleryRepository userRepository();
-
+   // ServiceGeneratorImpl serviceGenerator();
 
 }

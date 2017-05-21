@@ -7,29 +7,19 @@ package com.photon.templatemvp.di.modules;
 import android.content.Context;
 
 
-import com.photon.templatemvp.BuildConfig;
 import com.photon.templatemvp.application.TemplateApp;
+import com.photon.templatemvp.data.remote.ServiceGeneratorImpl;
 import com.photon.templatemvp.data.repository.gallery.GalleryDataRepository;
 import com.photon.templatemvp.data.repository.gallery.GalleryRepository;
-import com.photon.templatemvp.data.repository.gallery.datasource.GalleryDataStore;
-import com.photon.templatemvp.data.util.AppConstant;
-import com.photon.templatemvp.data.util.StateManager;
-import com.photon.templatemvp.data.util.StateManagerImpl;
-import com.photon.templatemvp.util.Utils;
 import com.photon.templatemvp.executor.JobExecutor;
 import com.photon.templatemvp.executor.PostExecutionThread;
-import com.photon.templatemvp.executor.SchedulerProvider;
 import com.photon.templatemvp.executor.ThreadExecutor;
 import com.photon.templatemvp.executor.UIThread;
 
-import java.io.File;
-
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.HttpUrl;
 
 /**
  * Dagger module that provides objects which will live during the application lifecycle.
@@ -69,8 +59,12 @@ public class ApplicationModule {
     GalleryRepository provideGalleryRepository(GalleryDataRepository galleryDataRepository) {
         return galleryDataRepository;
     }
-
-
+  /*
+    @Provides @Singleton
+    ServiceGeneratorImpl serviceGenerator() {
+        return serviceGenerator();
+    }
+*/
 
 
 

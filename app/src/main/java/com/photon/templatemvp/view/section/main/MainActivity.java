@@ -1,6 +1,7 @@
 package com.photon.templatemvp.view.section.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import com.photon.templatemvp.R;
@@ -18,14 +19,20 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    public int getLayoutId() {
+    protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected boolean requestFeatureIntermediateProgress() {
+        return false;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+
     }
 
 

@@ -3,6 +3,7 @@ package com.photon.templatemvp.view.section.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 
 import com.photon.templatemvp.R;
 import com.photon.templatemvp.di.HasComponent;
@@ -21,10 +22,14 @@ public class GalleryActivity extends BaseActivity implements HasComponent<Galler
     private GalleryComponent galleryComponent;
 
     @Override
-    public int getLayoutId() {
+    protected int getLayoutId() {
         return R.layout.activity_gallery;
     }
 
+    @Override
+    protected boolean requestFeatureIntermediateProgress() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
