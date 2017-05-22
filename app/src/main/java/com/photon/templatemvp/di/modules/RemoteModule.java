@@ -29,11 +29,13 @@ public class RemoteModule {
     private static final String BASE_URL = "http://www.mocky.io";
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
+    private static final long CONNECTION_TIME = 15L;
 
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit( Converter.Factory converterFactory, CallAdapter.Factory callAdapterFactory, OkHttpClient okHttpClient) {
+    public Retrofit provideRetrofit(Converter.Factory converterFactory, CallAdapter.Factory
+            callAdapterFactory, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(converterFactory)
@@ -71,12 +73,14 @@ public class RemoteModule {
 
     @Singleton
     @Provides
-    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor,@Named("isDebug") boolean isDebug){
+    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, @Named
+            ("isDebug") boolean isDebug) {
 
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-        if(isDebug){
-                  okHttpClient.addInterceptor(loggingInterceptor);}
-
+        if (isDebug) {
+            okHttpClient.addInterceptor(loggingInterceptor);
+        }
+        okHttpClient.connectTimeout(CONNECTION_TIME, TimeUnit.SECONDS);
         return okHttpClient.build();
     }
 }
