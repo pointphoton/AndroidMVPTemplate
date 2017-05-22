@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.photon.templatemvp.BuildConfig;
 
+import javax.inject.Named;
+
 /**
  * Created by jumbada on 16/05/2017.
  */

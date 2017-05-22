@@ -7,6 +7,7 @@ package com.photon.templatemvp.di.modules;
 import android.content.Context;
 
 
+import com.photon.templatemvp.BuildConfig;
 import com.photon.templatemvp.application.TemplateApp;
 import com.photon.templatemvp.data.remote.ServiceGeneratorImpl;
 import com.photon.templatemvp.data.repository.gallery.GalleryDataRepository;
@@ -16,6 +17,7 @@ import com.photon.templatemvp.executor.PostExecutionThread;
 import com.photon.templatemvp.executor.ThreadExecutor;
 import com.photon.templatemvp.executor.UIThread;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -59,12 +61,13 @@ public class ApplicationModule {
     GalleryRepository provideGalleryRepository(GalleryDataRepository galleryDataRepository) {
         return galleryDataRepository;
     }
-  /*
-    @Provides @Singleton
-    ServiceGeneratorImpl serviceGenerator() {
-        return serviceGenerator();
+
+    @Provides
+    @Singleton
+    @Named("isDebug")
+    Boolean provideIsDebug() {
+        return BuildConfig.DEBUG;
     }
-*/
 
 
 

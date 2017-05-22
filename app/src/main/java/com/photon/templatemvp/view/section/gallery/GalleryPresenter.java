@@ -7,6 +7,8 @@ import com.photon.templatemvp.data.model.gallery.Car;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
 import com.photon.templatemvp.di.PerActivity;
 import com.photon.templatemvp.exception.DefaultErrorBundle;
+import com.photon.templatemvp.exception.ErrorBundle;
+import com.photon.templatemvp.exception.ErrorMessageFactory;
 import com.photon.templatemvp.iteractor.DefaultObserver;
 import com.photon.templatemvp.iteractor.gallery.GalleryUseCase;
 import com.photon.templatemvp.util.DebugLog;
@@ -67,13 +69,15 @@ public class GalleryPresenter implements Presenter {
     }
 
     /**
-     * Loads all users.
+     * Loads all cars.
      */
     private void loadUserList() {
+        /*
         DebugLog.write("this.hideViewRetry()");
         this.hideViewRetry();
         DebugLog.write("this.showViewLoading()");
         this.showViewLoading();
+        */
         DebugLog.write("this.getUserList()");
         this.getCarList();
     }
@@ -109,6 +113,14 @@ public class GalleryPresenter implements Presenter {
         this.viewGalleryView.hideRetry();
     }
 
+    private void showErrorMessage(ErrorBundle errorBundle) {
+     DebugLog.write();
+        String errorMessage = ErrorMessageFactory.create(this.viewGalleryView.context(),
+                errorBundle.getException());
+       DebugLog.write("LoadDataView showError(errorMessage)");
+        this.viewGalleryView.showError(errorMessage);
+    }
+
     private void showCarsCollectionInView(GalleryModel galleryModel) {
         DebugLog.write();
         DebugLog.write("this.carCollectionMapper.transform(galleryModel);");
@@ -130,6 +142,16 @@ public class GalleryPresenter implements Presenter {
         }
 
         @Override
+        protected void onStart() {
+            super.onStart();
+            DebugLog.write("GalleryObserver onStart() ");
+            DebugLog.write("this.hideViewRetry()");
+            GalleryPresenter.this.hideViewRetry();
+            DebugLog.write("this.showViewLoading()");
+            GalleryPresenter.this.showViewLoading();
+        }
+
+        @Override
         public void onComplete() {
             DebugLog.write("GalleryObserver onComplete() ");
             DebugLog.write("GalleryObserver.this.hideViewLoading() ");
@@ -142,17 +164,17 @@ public class GalleryPresenter implements Presenter {
             DebugLog.write("GalleryPresenter.this.hideViewLoading() ");
             GalleryPresenter.this.hideViewLoading();
             DebugLog.write("GalleryPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e)");
-            // GalleryPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            GalleryPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
             DebugLog.write("UserListPresenter.this.showViewRetry()");
             GalleryPresenter.this.showViewRetry();
         }
 
         @Override
-        public void onNext(final GalleryModel model) {
-            DebugLog.write("GalleryObserver onNext(List<User> users) ");
-            DebugLog.write("UserListPresenter.this.showUsersCollectionInView(users)");
-            DebugLog.write(model.getType());
-            GalleryPresenter.this.showCarsCollectionInView(model);
+        public void onNext(final GalleryModel galleryModel) {
+            DebugLog.write("GalleryObserver onNext(final T t) ");
+            DebugLog.write("UserListPresenter.this.showUsersCollectionInView(galeryModel)");
+            DebugLog.write(galleryModel.getType());
+            GalleryPresenter.this.showCarsCollectionInView(galleryModel);
         }
     }
 }

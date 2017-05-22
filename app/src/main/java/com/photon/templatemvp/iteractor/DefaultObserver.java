@@ -21,6 +21,12 @@ import io.reactivex.observers.DisposableObserver;
  * Default {@link DisposableObserver} base class to be used whenever you want default error handling.
  */
 public class DefaultObserver<T> extends DisposableObserver<T> {
+
+  @Override
+  protected void onStart() {
+  // no-op by default.
+  }
+
   @Override public void onNext(final T t) {
     // no-op by default.
   }

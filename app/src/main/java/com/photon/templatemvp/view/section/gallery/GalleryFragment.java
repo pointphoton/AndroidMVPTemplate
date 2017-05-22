@@ -172,6 +172,7 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
     @Override
     public void hideLoading() {
 DebugLog.write();
+this.rl_progress.setVisibility(View.INVISIBLE);
         this.rl_progress.setVisibility(View.GONE);
         this.getActivity().setProgressBarIndeterminateVisibility(false);
     }
@@ -185,6 +186,7 @@ DebugLog.write();
     @Override
     public void hideRetry() {
         DebugLog.write();
+        this.rl_retry.setVisibility(View.INVISIBLE);
         this.rl_retry.setVisibility(View.GONE);
     }
 

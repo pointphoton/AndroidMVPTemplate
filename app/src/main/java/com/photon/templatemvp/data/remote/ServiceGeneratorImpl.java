@@ -49,7 +49,7 @@ public class ServiceGeneratorImpl {
         retrofit = new Retrofit.Builder()
             .baseUrl(baseUrl).client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+           .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         return retrofit.create(serviceClass);
     }
 

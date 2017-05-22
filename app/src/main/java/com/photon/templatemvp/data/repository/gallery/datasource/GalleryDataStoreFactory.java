@@ -14,6 +14,9 @@ import com.photon.templatemvp.util.DebugLog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import retrofit2.Retrofit;
+
 /** Factory that creates different implementations of {@link GalleryDataStore}.
         */
 @Singleton
@@ -21,12 +24,13 @@ public class GalleryDataStoreFactory {
 
     private final Context context;
    private final GalleryCache galleryCache;
-private  final ServiceGeneratorImpl generator ;
+//private  final ServiceGeneratorImpl generator ;
+private final Retrofit retrofit;
     @Inject
-    GalleryDataStoreFactory(@NonNull Context context, ServiceGeneratorImpl generator) {
+    GalleryDataStoreFactory(@NonNull Context context, Retrofit retrofit) {
         this.context = context.getApplicationContext();
         galleryCache = null;
-        this.generator = generator;
+        this.retrofit = retrofit;
            }
 
     /**
@@ -44,7 +48,7 @@ private  final ServiceGeneratorImpl generator ;
      */
     public GalleryDataStore createCloudDataStore() {
         final GalleryModelJsonMapper galleryModelJsonMapper = new GalleryModelJsonMapper();
-        final MockyApi restApi = new MockyApiImpl(this.context, galleryModelJsonMapper,generator) {
+        final MockyApi restApi = new MockyApiImpl(this.context, galleryModelJsonMapper,retrofit) {
         };
         return new CloudGalleryDataStore(restApi, this.galleryCache);
 

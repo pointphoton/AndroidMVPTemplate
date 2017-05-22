@@ -35,20 +35,20 @@ public class MockyApiImpl implements MockyApi {
 
     private final Context context;
     private final GalleryModelJsonMapper galleryModelJsonMapper;
-private final ServiceGeneratorImpl serviceGenerator;
+private final Retrofit retrofit;
     /**
      * Constructor of the class
      *
      * @param context                {@link android.content.Context}.
      * @param galleryModelJsonMapper {@link GalleryModelJsonMapper}.
      */
-    public MockyApiImpl(Context context, GalleryModelJsonMapper galleryModelJsonMapper,ServiceGeneratorImpl serviceGenerator) {
+    public MockyApiImpl(Context context, GalleryModelJsonMapper galleryModelJsonMapper,Retrofit retrofit) {
         if (context == null || galleryModelJsonMapper == null) {
             throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
         }
         this.context = context.getApplicationContext();
         this.galleryModelJsonMapper = galleryModelJsonMapper;
-    this.serviceGenerator =serviceGenerator;
+    this.retrofit =retrofit;
     }
 
     @Override
@@ -57,13 +57,28 @@ private final ServiceGeneratorImpl serviceGenerator;
         return   Observable.create(new ObservableOnSubscribe<GalleryModel>() {
             @Override
             public void subscribe(ObservableEmitter<GalleryModel> e) throws Exception {
-                MockyService service =serviceGenerator.createService(MockyService.class ,MockyService.API_BASE_URL);
-                retrofit2.Response response = service.getGalleryModel().execute();
-DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
 
-                e.onNext((GalleryModel) response.body());
-                e.onError(new NetworkConnectionException());
-                e.onComplete();
+                if (isThereInternetConnection()){
+                    try{
+                      //  MockyService service =serviceGenerator.createService(MockyService.class ,MockyService.API_BASE_URL);
+                        MockyService service = retrofit.create(MockyService.class);
+                        retrofit2.Response response = service.getGalleryModel().execute();
+                        DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
+
+                        e.onNext((GalleryModel) response.body());
+                        e.onComplete();
+                    }
+                    catch (Exception ex){
+                        e.onError(new NetworkConnectionException(ex.getCause()));
+                    }
+                }
+                else {
+                    e.onError(new NetworkConnectionException());
+                }
+
+
+              
+
             }
         });
 

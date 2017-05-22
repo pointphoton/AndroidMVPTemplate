@@ -12,7 +12,7 @@ import retrofit2.http.GET;
 
 public interface MockyService {
 
-    static public String API_BASE_URL = "http://www.mocky.io/v2/5915a54b1000007e037595fe";
+    static public String API_BASE_URL = "http://www.mocky.io";
 
     @GET("/v2/5915a54b1000007e037595fe")
     Call<GalleryModel> getGalleryModel();
