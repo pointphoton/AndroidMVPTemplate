@@ -15,6 +15,8 @@ import java.lang.annotation.Retention;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -35,25 +37,42 @@ public class MockyApiImpl implements MockyApi {
 
     private final Context context;
     private final GalleryModelJsonMapper galleryModelJsonMapper;
-private final Retrofit retrofit;
+
     /**
      * Constructor of the class
      *
      * @param context                {@link android.content.Context}.
      * @param galleryModelJsonMapper {@link GalleryModelJsonMapper}.
      */
-    public MockyApiImpl(Context context, GalleryModelJsonMapper galleryModelJsonMapper,Retrofit retrofit) {
+    public MockyApiImpl(Context context, GalleryModelJsonMapper galleryModelJsonMapper) {
         if (context == null || galleryModelJsonMapper == null) {
             throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
         }
         this.context = context.getApplicationContext();
         this.galleryModelJsonMapper = galleryModelJsonMapper;
-    this.retrofit =retrofit;
+
     }
 
     @Override
     public Observable<GalleryModel> getGalleryModel() {
         DebugLog.write();
+
+        return Observable.create(new ObservableOnSubscribe<GalleryModel>() {
+
+            @Override
+            public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
+
+                try {
+                    GalleryModel model = getGalleryModelFromApi(MockyService.class);
+                    emitter.onNext(model);
+                    emitter.onComplete();
+                }
+                catch (Exception ex){
+                    emitter.onError(new NetworkConnectionException(ex.getCause()));
+                }
+            }
+        });
+        /*
         return   Observable.create(new ObservableOnSubscribe<GalleryModel>() {
             @Override
             public void subscribe(ObservableEmitter<GalleryModel> e) throws Exception {
@@ -81,7 +100,7 @@ private final Retrofit retrofit;
 
             }
         });
-
+*/
         //retrofit
 /*
 //old standart
@@ -122,6 +141,10 @@ private final Retrofit retrofit;
     private String getGalleryModelFromApi() throws MalformedURLException {
         return ApiConnection.createGET(MockyApi.API_BASE_URL).requestSyncCall();
 
+    }
+
+    private GalleryModel getGalleryModelFromApi(Class<S> serviceClass){
+        return (GalleryModel) RemoteConnection.createGET().createService(serviceClass);
     }
 
 

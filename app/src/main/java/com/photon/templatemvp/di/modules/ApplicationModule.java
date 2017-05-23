@@ -17,6 +17,8 @@ import com.photon.templatemvp.executor.PostExecutionThread;
 import com.photon.templatemvp.executor.ThreadExecutor;
 import com.photon.templatemvp.executor.UIThread;
 
+import java.io.File;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -64,12 +66,10 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    @Named("isDebug")
-    Boolean provideIsDebug() {
-        return BuildConfig.DEBUG;
+    @Named("cacheDir")
+    File provideCacheDir() {
+        return application.getCacheDir();
     }
-
-
 
 
 

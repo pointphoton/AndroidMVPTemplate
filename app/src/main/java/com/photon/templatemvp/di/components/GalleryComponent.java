@@ -9,7 +9,7 @@ import dagger.Component;
 
 /**
  * A scope {@link com.photon.templatemvp.di.PerActivity} component.
- * Injects user specific Fragments.
+ * Injects gallery specific Fragments.
  */
 
 @PerActivity

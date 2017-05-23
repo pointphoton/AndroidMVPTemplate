@@ -1,7 +1,10 @@
 package com.photon.templatemvp.di.modules;
 
 import com.google.gson.Gson;
+import com.photon.templatemvp.BuildConfig;
+import com.photon.templatemvp.data.remote.RemoteConstant;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
@@ -13,6 +16,7 @@ import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -20,22 +24,14 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by jumbada on 22/05/2017.
- */
+
 @Module
-public class RemoteModule {
-
-    private static final String BASE_URL = "http://www.mocky.io";
-    private static final String CONTENT_TYPE_LABEL = "Content-Type";
-    private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
-    private static final long CONNECTION_TIME = 15L;
-
+public class RemoteModule implements RemoteConstant{
 
     @Provides
     @Singleton
     public Retrofit provideRetrofit(Converter.Factory converterFactory, CallAdapter.Factory
-            callAdapterFactory, OkHttpClient okHttpClient) {
+            callAdapterFactory, OkHttpClient okHttpClient ) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(converterFactory)
@@ -74,13 +70,53 @@ public class RemoteModule {
     @Singleton
     @Provides
     public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, @Named
-            ("isDebug") boolean isDebug) {
+            ("isDebug") boolean isDebug ,   @Named("headerInterceptor") Interceptor headerIntercaptor) {
 
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
         if (isDebug) {
             okHttpClient.addInterceptor(loggingInterceptor);
         }
-        okHttpClient.connectTimeout(CONNECTION_TIME, TimeUnit.SECONDS);
+        okHttpClient.addInterceptor(headerIntercaptor)
+        .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        .readTimeout(READ_TIMEOUT,TimeUnit.SECONDS);
+       // .cache(cache);
         return okHttpClient.build();
     }
+
+    /*
+    @Provides
+    @Singleton
+    public Cache provideCache(@Named("cacheDir") File cacheDir) {
+        Cache cache = null;
+
+        try {
+            cache = new Cache(new File(cacheDir.getPath(), HTTP_CACHE_PATH), CACHE_SIZE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cache;
+    }
+    */
+
+    @Singleton
+    @Provides
+    @Named("headerInterceptor")
+    public Interceptor provideDefaultHeaderInterceptor(){
+        return chain -> {
+          Request request = chain.request();
+           request.newBuilder()
+             .header(CONTENT_TYPE_LABEL,CONTENT_TYPE_VALUE_JSON)
+             .build();
+          return chain.proceed(request);
+        };
+    }
+
+    @Provides
+    @Singleton
+    @Named("isDebug")
+    Boolean provideIsDebug() {
+        return BuildConfig.DEBUG;
+    }
+
+
 }
