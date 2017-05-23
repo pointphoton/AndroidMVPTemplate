@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import com.google.gson.Gson;
 import com.photon.templatemvp.data.mapper.GalleryModelJsonMapper;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
+import com.photon.templatemvp.di.components.RemoteComponent;
 import com.photon.templatemvp.exception.NetworkConnectionException;
 import com.photon.templatemvp.util.DebugLog;
 
@@ -35,8 +36,13 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  */
 public class MockyApiImpl implements MockyApi {
 
+    @Inject Retrofit retrofit;
+
     private final Context context;
     private final GalleryModelJsonMapper galleryModelJsonMapper;
+    private final RemoteComponent remoteComponent;
+
+
 
     /**
      * Constructor of the class
@@ -63,8 +69,8 @@ public class MockyApiImpl implements MockyApi {
             public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
 
                 try {
-                    GalleryModel model = getGalleryModelFromApi(MockyService.class);
-                    emitter.onNext(model);
+                   // GalleryModel model = (MockyService.class);
+                    emitter.onNext(null);
                     emitter.onComplete();
                 }
                 catch (Exception ex){
@@ -138,14 +144,13 @@ public class MockyApiImpl implements MockyApi {
 
     }
 
-    private String getGalleryModelFromApi() throws MalformedURLException {
-        return ApiConnection.createGET(MockyApi.API_BASE_URL).requestSyncCall();
+    private void initializeInjector () {
 
+        remoteComponent = DaggerRemoteComponent.builder().build();
+        remoteComponent.inject(this);
     }
 
-    private GalleryModel getGalleryModelFromApi(Class<S> serviceClass){
-        return (GalleryModel) RemoteConnection.createGET().createService(serviceClass);
-    }
+
 
 
 
@@ -164,6 +169,8 @@ public class MockyApiImpl implements MockyApi {
 
         return isConnected;
     }
+
+
 
 
 }

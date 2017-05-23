@@ -69,7 +69,7 @@ public class RemoteModule implements RemoteConstant{
 
     @Singleton
     @Provides
-    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, @Named
+    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor, Cache cache,@Named
             ("isDebug") boolean isDebug ,   @Named("headerInterceptor") Interceptor headerIntercaptor) {
 
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
@@ -78,12 +78,12 @@ public class RemoteModule implements RemoteConstant{
         }
         okHttpClient.addInterceptor(headerIntercaptor)
         .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-        .readTimeout(READ_TIMEOUT,TimeUnit.SECONDS);
-       // .cache(cache);
+        .readTimeout(READ_TIMEOUT,TimeUnit.SECONDS)
+        .cache(cache);
         return okHttpClient.build();
     }
 
-    /*
+
     @Provides
     @Singleton
     public Cache provideCache(@Named("cacheDir") File cacheDir) {
@@ -96,7 +96,7 @@ public class RemoteModule implements RemoteConstant{
         }
         return cache;
     }
-    */
+
 
     @Singleton
     @Provides
