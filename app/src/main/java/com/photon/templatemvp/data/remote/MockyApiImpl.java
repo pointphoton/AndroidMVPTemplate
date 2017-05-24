@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -31,10 +32,7 @@ public class MockyApiImpl implements MockyApi {
     //private final RemoteComponent remoteComponent;
 
 
-    private void initializeInjector () {
 
-
-    }
 
 
     /**
@@ -53,6 +51,12 @@ public class MockyApiImpl implements MockyApi {
 
     }
 
+    private <T> T res (Response<T> response) {
+
+
+    return response.body();
+    }
+
     @Override
     public Observable<GalleryModel> getGalleryModel() {
         DebugLog.write();
@@ -64,8 +68,9 @@ public class MockyApiImpl implements MockyApi {
                 if (!isThereInternetConnection()) {
                     try {
 
+
                         service = retrofit.create(MockyService.class);
-                        retrofit2.Response response = service.getGalleryModel().execute();
+                        retrofit2.Response<GalleryModel> response = service.getGalleryModel().execute();
                         DebugLog.write("message :" + response.message());
                         DebugLog.write("code :" + response.code());
                         DebugLog.write("isSuccessful :" + response.isSuccessful());
