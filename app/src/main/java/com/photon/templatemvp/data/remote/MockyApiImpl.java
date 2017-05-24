@@ -32,6 +32,27 @@ public class MockyApiImpl implements MockyApi {
     //private final RemoteComponent remoteComponent;
 
 
+    interface Testable{
+
+        void getModel(Object model);
+        void onError(String errorType);
+    }
+
+    class Test implements Testable {
+
+
+        @Override
+        public void getModel(Object model) {
+            DebugLog.write("testable "+model.toString());
+            //return null;
+        }
+
+        @Override
+        public void onError(String errorType) {
+            DebugLog.write("testable "+errorType);
+
+        }
+    }
 
 
 
@@ -51,10 +72,20 @@ public class MockyApiImpl implements MockyApi {
 
     }
 
-    private <T> T res (Response<T> response) {
+    private void res (Response response,Testable testable) {
+        DebugLog.write("message :" + response.message());
+        DebugLog.write("code :" + response.code());
+        DebugLog.write("isSuccessful :" + response.isSuccessful());
+        if(response.code() == 200){
+             testable.getModel(response.body());
+           // return response.body();
+        }
+        else{
+            testable.onError("error test...");
+        }
 
 
-    return response.body();
+
     }
 
     @Override
@@ -65,22 +96,21 @@ public class MockyApiImpl implements MockyApi {
 
             @Override
             public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
-                if (!isThereInternetConnection()) {
+                if (isThereInternetConnection()) {
                     try {
 
 
                         service = retrofit.create(MockyService.class);
                         retrofit2.Response<GalleryModel> response = service.getGalleryModel().execute();
-                        DebugLog.write("message :" + response.message());
-                        DebugLog.write("code :" + response.code());
-                        DebugLog.write("isSuccessful :" + response.isSuccessful());
+                        Test t = new Test();
+                        res(response,t);
 
 
                         //DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
 
-                        emitter.onNext((GalleryModel) response.body());
+                     //   emitter.onNext((GalleryModel) response.body());
                         //emitter.onNext(new GalleryModel());
-                        emitter.onComplete();
+                     //   emitter.onComplete();
                     } catch (Exception ex) {
                         DebugLog.write(ex.getCause() + " _ " + ex.getMessage());
                         // show message , logging message
