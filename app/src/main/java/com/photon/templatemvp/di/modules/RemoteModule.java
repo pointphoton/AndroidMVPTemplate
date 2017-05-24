@@ -1,7 +1,10 @@
 package com.photon.templatemvp.di.modules;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.photon.templatemvp.BuildConfig;
+import com.photon.templatemvp.application.TemplateApp;
 import com.photon.templatemvp.data.remote.RemoteConstant;
 
 import java.io.File;
@@ -27,6 +30,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class RemoteModule implements RemoteConstant{
+
+    private final TemplateApp application;
+
+    public RemoteModule(TemplateApp application) {
+        this.application = application;
+    }
+
+    @Provides
+    @Singleton
+    Context provideApplicationContext() {
+        return this.application;
+    }
 
     @Provides
     @Singleton
@@ -116,6 +131,13 @@ public class RemoteModule implements RemoteConstant{
     @Named("isDebug")
     Boolean provideIsDebug() {
         return BuildConfig.DEBUG;
+    }
+
+    @Provides
+    @Singleton
+    @Named("cacheDir")
+    File provideCacheDir() {
+        return application.getCacheDir();
     }
 
 

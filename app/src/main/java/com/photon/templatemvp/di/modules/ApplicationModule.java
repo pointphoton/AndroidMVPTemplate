@@ -64,13 +64,6 @@ public class ApplicationModule {
         return galleryDataRepository;
     }
 
-    @Provides
-    @Singleton
-    @Named("cacheDir")
-    File provideCacheDir() {
-        return application.getCacheDir();
-    }
-
 
 
 }

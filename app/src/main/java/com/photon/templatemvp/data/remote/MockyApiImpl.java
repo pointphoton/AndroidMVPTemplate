@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import com.google.gson.Gson;
 import com.photon.templatemvp.data.mapper.GalleryModelJsonMapper;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
+import com.photon.templatemvp.di.components.DaggerRemoteComponent;
 import com.photon.templatemvp.di.components.RemoteComponent;
 import com.photon.templatemvp.exception.NetworkConnectionException;
 import com.photon.templatemvp.util.DebugLog;
@@ -38,10 +39,17 @@ public class MockyApiImpl implements MockyApi {
 
     @Inject Retrofit retrofit;
 
+    private RemoteComponent remoteComponent;
     private final Context context;
     private final GalleryModelJsonMapper galleryModelJsonMapper;
-    private final RemoteComponent remoteComponent;
+    //private final RemoteComponent remoteComponent;
 
+
+    private void initializeInjector () {
+
+        remoteComponent = DaggerRemoteComponent.builder().build();
+        remoteComponent.inject(this);
+    }
 
 
     /**
@@ -54,6 +62,7 @@ public class MockyApiImpl implements MockyApi {
         if (context == null || galleryModelJsonMapper == null) {
             throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
         }
+        initializeInjector();
         this.context = context.getApplicationContext();
         this.galleryModelJsonMapper = galleryModelJsonMapper;
 
@@ -69,8 +78,11 @@ public class MockyApiImpl implements MockyApi {
             public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
 
                 try {
-                   // GalleryModel model = (MockyService.class);
-                    emitter.onNext(null);
+
+                    MockyService service = retrofit.create(MockyService.class);
+                    retrofit2.Response response = service.getGalleryModel().execute();
+                    //DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
+                    emitter.onNext((GalleryModel) response.body());
                     emitter.onComplete();
                 }
                 catch (Exception ex){
@@ -143,13 +155,6 @@ public class MockyApiImpl implements MockyApi {
         */
 
     }
-
-    private void initializeInjector () {
-
-        remoteComponent = DaggerRemoteComponent.builder().build();
-        remoteComponent.inject(this);
-    }
-
 
 
 
