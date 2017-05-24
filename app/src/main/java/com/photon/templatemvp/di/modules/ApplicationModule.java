@@ -65,5 +65,17 @@ public class ApplicationModule {
     }
 
 
+    @Provides
+    @Singleton
+    @Named("cacheDir")
+    File provideCacheDir(Context context) {
+        return context.getCacheDir();
+    }
 
+    @Provides
+    @Singleton
+    @Named("isDebug")
+    Boolean provideIsDebug() {
+        return BuildConfig.DEBUG;
+    }
 }

@@ -1,10 +1,14 @@
 package com.photon.templatemvp.data.mapper;
 
+import com.photon.templatemvp.data.model.gallery.Person;
+import com.photon.templatemvp.data.model.gallery.Properties;
 import com.photon.templatemvp.di.PerActivity;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
 import com.photon.templatemvp.data.model.gallery.Car;
+import com.photon.templatemvp.util.DebugLog;
 import com.photon.templatemvp.util.Utils;
 
+import java.lang.annotation.Target;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,12 +30,19 @@ public class GalleryModelCarCollectionMapper {
      *
      * @param galleryModel Object to be transformed.
      * @return {@link Collection<Car>}.
+     * @throws IllegalArgumentException if {@code model} is null
+     * @throws NullPointerException if {@code the member(s) of the model} is null
+     * @throws Exception
      */
-    public Collection<Car> transform(final GalleryModel galleryModel){
+    public Collection<Car> transform(final GalleryModel galleryModel) throws Exception{
         if (galleryModel == null) {
-            throw new IllegalArgumentException("Cannot transform a null value");
+            DebugLog.write();
+            throw new IllegalArgumentException("Cannot transform a null " + GalleryModel.class.getSimpleName());
         }
-       List<Car> cars = Utils.checkNotNull(Utils.checkNotNull(Utils.checkNotNull(galleryModel.getProperties()).getPerson()).getCars());
+       DebugLog.write();
+       Properties properties = Utils.checkNotNull(galleryModel.getProperties(), Properties.class.getSimpleName());
+       Person person =  Utils.checkNotNull(properties.getPerson());
+       List<Car> cars = Utils.checkNotNull(person.getCars());
        return cars;
 
 

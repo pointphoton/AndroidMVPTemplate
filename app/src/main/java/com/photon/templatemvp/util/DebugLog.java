@@ -30,7 +30,7 @@ if(BuildConfig.DEBUG_MODE){
     }
 
 
-    public static void write(final String message){
+    public static void write(final Object message){
         if(BuildConfig.DEBUG_MODE){
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
             String fileName = stackTrace.getFileName();
@@ -39,11 +39,11 @@ if(BuildConfig.DEBUG_MODE){
             final String info = stackTrace.getMethodName() + " (" + fileName + ":"
                     + stackTrace.getLineNumber() + ")";
 
-            Log.d("***", info +  " : "  + message);}
+            Log.d("***", info +  " : "  + String.valueOf(message));}
 
     }
 
-  public static void write(final String className,final String message){
+  public static void write(final String tag,final Object message){
       if(BuildConfig.DEBUG_MODE){
           final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
           String fileName = stackTrace.getFileName();
@@ -52,7 +52,7 @@ if(BuildConfig.DEBUG_MODE){
           final String info = stackTrace.getMethodName() + " (" + fileName + ":"
                   + stackTrace.getLineNumber() + ")";
           final String searcherMark = " *** ";
-          Log.d(""+className, info + searcherMark +  " : "  + message);}
+          Log.d("_"+tag, info + searcherMark +  " : "  + String.valueOf(message));}
 
   }
 

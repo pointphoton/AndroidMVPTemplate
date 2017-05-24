@@ -3,19 +3,13 @@ package com.photon.templatemvp.data.remote;
 import android.support.annotation.Nullable;
 
 
-import com.photon.templatemvp.di.components.RemoteComponent;
 import com.photon.templatemvp.util.DebugLog;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by jumbada on 23/05/2017.
@@ -25,11 +19,11 @@ public class RemoteConnection implements Callable<Object> {
 
 
 
-    private RemoteComponent remoteComponent;
+  //  private RemoteComponent remoteComponent;
 
 
     private Object response;
-    @Inject Retrofit retrofit;
+   // @Inject Retrofit retrofit;
 
 
 private void test () {
@@ -51,7 +45,8 @@ private void test () {
 
     public   <S> S createService(Class<S> serviceClass) {
 
-        return retrofit.create(serviceClass);
+      //  return retrofit.create(serviceClass);
+        return  null;
     }
 
 

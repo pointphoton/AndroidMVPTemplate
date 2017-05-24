@@ -24,11 +24,12 @@ public class GalleryDataStoreFactory {
 
     private final Context context;
    private final GalleryCache galleryCache;
-//private  final ServiceGeneratorImpl generator ;
+private  final Retrofit retrofit ;
 
     @Inject
-    GalleryDataStoreFactory(@NonNull Context context) {
+    GalleryDataStoreFactory(@NonNull Context context, Retrofit retrofit) {
         this.context = context.getApplicationContext();
+        this.retrofit = retrofit;
         galleryCache = null;
 
            }
@@ -47,8 +48,8 @@ public class GalleryDataStoreFactory {
      * Create {@link GalleryDataStore} to retrieve data from the Cloud.
      */
     public GalleryDataStore createCloudDataStore() {
-        final GalleryModelJsonMapper galleryModelJsonMapper = new GalleryModelJsonMapper();
-        final MockyApi restApi = new MockyApiImpl(this.context, galleryModelJsonMapper) {
+        //final GalleryModelJsonMapper galleryModelJsonMapper = new GalleryModelJsonMapper();
+        final MockyApi restApi = new MockyApiImpl(this.context, retrofit) {
         };
         return new CloudGalleryDataStore(restApi, this.galleryCache);
 

@@ -15,6 +15,7 @@ import com.photon.templatemvp.util.DebugLog;
 import com.photon.templatemvp.view.base.presenter.Presenter;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -124,9 +125,25 @@ public class GalleryPresenter implements Presenter {
     private void showCarsCollectionInView(GalleryModel galleryModel) {
         DebugLog.write();
         DebugLog.write("this.carCollectionMapper.transform(galleryModel);");
-        final Collection<Car> cars = this.carCollectionMapper.transform(galleryModel);
-        DebugLog.write("this.viewGalleryView.renderUserList(cars)");
-        this.viewGalleryView.renderUserList(cars);
+        Collection<Car> cars = Collections.EMPTY_LIST;
+        try {
+            DebugLog.write("try this.viewGalleryView.renderUserList(cars)");
+            cars = this.carCollectionMapper.transform(galleryModel);
+        }
+        catch (IllegalArgumentException iae){
+            DebugLog.write("Exception",  iae.getClass() + " " + iae.getMessage());
+        }
+        catch (NullPointerException npe){
+            DebugLog.write("Exception",  npe.getClass() + " " + npe.getMessage());
+        }
+        catch (Exception e){
+            DebugLog.write("Exception",  e.getClass() + " " + e.getMessage());
+        }
+        finally {
+            DebugLog.write("finally this.viewGalleryView.renderUserList(cars)");
+            this.viewGalleryView.renderUserList(cars);
+        }
+
 
     }
 
@@ -173,7 +190,7 @@ public class GalleryPresenter implements Presenter {
         public void onNext(final GalleryModel galleryModel) {
             DebugLog.write("GalleryObserver onNext(final T t) ");
             DebugLog.write("UserListPresenter.this.showUsersCollectionInView(galeryModel)");
-            DebugLog.write(galleryModel.getType());
+          //  DebugLog.write(galleryModel.getType());
             GalleryPresenter.this.showCarsCollectionInView(galleryModel);
         }
     }

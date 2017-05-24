@@ -31,18 +31,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RemoteModule implements RemoteConstant{
 
-    private final TemplateApp application;
-
-    public RemoteModule(TemplateApp application) {
-        this.application = application;
-    }
-
-    @Provides
-    @Singleton
-    Context provideApplicationContext() {
-        return this.application;
-    }
-
     @Provides
     @Singleton
     public Retrofit provideRetrofit(Converter.Factory converterFactory, CallAdapter.Factory
@@ -126,19 +114,9 @@ public class RemoteModule implements RemoteConstant{
         };
     }
 
-    @Provides
-    @Singleton
-    @Named("isDebug")
-    Boolean provideIsDebug() {
-        return BuildConfig.DEBUG;
-    }
 
-    @Provides
-    @Singleton
-    @Named("cacheDir")
-    File provideCacheDir() {
-        return application.getCacheDir();
-    }
+
+
 
 
 }

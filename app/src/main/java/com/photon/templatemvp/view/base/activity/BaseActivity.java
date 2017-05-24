@@ -60,6 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return ((TemplateApp) getApplication()).getApplicationComponent();
     }
 
+
     /**
      * Get an Activity module for dependency injection.
      *

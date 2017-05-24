@@ -4,51 +4,36 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.google.gson.Gson;
 import com.photon.templatemvp.data.mapper.GalleryModelJsonMapper;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
-import com.photon.templatemvp.di.components.DaggerRemoteComponent;
-import com.photon.templatemvp.di.components.RemoteComponent;
 import com.photon.templatemvp.exception.NetworkConnectionException;
+import com.photon.templatemvp.exception.TestException;
 import com.photon.templatemvp.util.DebugLog;
 
-import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
-
+import javax.crypto.spec.DESedeKeySpec;
 import javax.inject.Inject;
 
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Single;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * {@link MockyApi} implementation for retrieving data from the network.
  */
 public class MockyApiImpl implements MockyApi {
 
-    @Inject Retrofit retrofit;
+    private Retrofit retrofit;
+    private  MockyService service;
 
-    private RemoteComponent remoteComponent;
     private final Context context;
-    private final GalleryModelJsonMapper galleryModelJsonMapper;
+   // private final GalleryModelJsonMapper galleryModelJsonMapper;
     //private final RemoteComponent remoteComponent;
 
 
     private void initializeInjector () {
 
-        remoteComponent = DaggerRemoteComponent.builder().build();
-        remoteComponent.inject(this);
+
     }
 
 
@@ -56,15 +41,15 @@ public class MockyApiImpl implements MockyApi {
      * Constructor of the class
      *
      * @param context                {@link android.content.Context}.
-     * @param galleryModelJsonMapper {@link GalleryModelJsonMapper}.
+
      */
-    public MockyApiImpl(Context context, GalleryModelJsonMapper galleryModelJsonMapper) {
-        if (context == null || galleryModelJsonMapper == null) {
+    public MockyApiImpl(Context context, Retrofit retrofit) {
+        if (context == null ) {
             throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
         }
-        initializeInjector();
+
         this.context = context.getApplicationContext();
-        this.galleryModelJsonMapper = galleryModelJsonMapper;
+        this.retrofit = retrofit;
 
     }
 
@@ -76,17 +61,29 @@ public class MockyApiImpl implements MockyApi {
 
             @Override
             public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
+                if (!isThereInternetConnection()) {
+                    try {
 
-                try {
+                        service = retrofit.create(MockyService.class);
+                        retrofit2.Response response = service.getGalleryModel().execute();
+                        DebugLog.write("message :" + response.message());
+                        DebugLog.write("code :" + response.code());
+                        DebugLog.write("isSuccessful :" + response.isSuccessful());
 
-                    MockyService service = retrofit.create(MockyService.class);
-                    retrofit2.Response response = service.getGalleryModel().execute();
-                    //DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
-                    emitter.onNext((GalleryModel) response.body());
-                    emitter.onComplete();
-                }
-                catch (Exception ex){
-                    emitter.onError(new NetworkConnectionException(ex.getCause()));
+
+                        //DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
+
+                        emitter.onNext((GalleryModel) response.body());
+                        //emitter.onNext(new GalleryModel());
+                        emitter.onComplete();
+                    } catch (Exception ex) {
+                        DebugLog.write(ex.getCause() + " _ " + ex.getMessage());
+                        // show message , logging message
+                        emitter.onError(new TestException("SHOW THIS MESSAGE  ",  ex.getCause()));
+                    }
+                } else {
+                   // emitter.onError(new NetworkConnectionException("no internet!!!"));
+                    emitter.onError(new NetworkConnectionException());
                 }
             }
         });

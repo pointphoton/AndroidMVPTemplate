@@ -13,6 +13,10 @@ public class NetworkConnectionException extends Exception {
         super();
     }
 
+    public NetworkConnectionException(final String message) {
+        super(message);
+
+    }
     public NetworkConnectionException(final Throwable cause) {
         super(cause);
     }
