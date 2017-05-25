@@ -1,18 +1,11 @@
 package com.photon.templatemvp.data.remote;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
-import com.photon.templatemvp.data.mapper.GalleryModelJsonMapper;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
-import com.photon.templatemvp.exception.NetworkConnectionException;
-import com.photon.templatemvp.exception.TestException;
+import com.photon.templatemvp.exception.NetworkServiceException;
+import com.photon.templatemvp.exception.ServiceErrorGenerator;
 import com.photon.templatemvp.util.DebugLog;
-
-import javax.crypto.spec.DESedeKeySpec;
-import javax.inject.Inject;
-
+import com.photon.templatemvp.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -26,67 +19,26 @@ public class MockyApiImpl implements MockyApi {
 
     private Retrofit retrofit;
     private  MockyService service;
-
     private final Context context;
-   // private final GalleryModelJsonMapper galleryModelJsonMapper;
-    //private final RemoteComponent remoteComponent;
-
-
-    interface Testable{
-
-        void getModel(Object model);
-        void onError(String errorType);
-    }
-
-    class Test implements Testable {
-
-
-        @Override
-        public void getModel(Object model) {
-            DebugLog.write("testable "+model.toString());
-            //return null;
-        }
-
-        @Override
-        public void onError(String errorType) {
-            DebugLog.write("testable "+errorType);
-
-        }
-    }
-
 
 
     /**
      * Constructor of the class
      *
      * @param context                {@link android.content.Context}.
-
      */
     public MockyApiImpl(Context context, Retrofit retrofit) {
-        if (context == null ) {
-            throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
+        if (context == null || retrofit == null) {
+        throw new IllegalArgumentException();
         }
 
-        this.context = context.getApplicationContext();
-        this.retrofit = retrofit;
-
-    }
-
-    private void res (Response response,Testable testable) {
-        DebugLog.write("message :" + response.message());
-        DebugLog.write("code :" + response.code());
-        DebugLog.write("isSuccessful :" + response.isSuccessful());
-        if(response.code() == 200){
-             testable.getModel(response.body());
-           // return response.body();
-        }
-        else{
-            testable.onError("error test...");
-        }
+            this.context = context.getApplicationContext();
+            this.retrofit = retrofit;
 
 
 
     }
+
 
     @Override
     public Observable<GalleryModel> getGalleryModel() {
@@ -96,29 +48,19 @@ public class MockyApiImpl implements MockyApi {
 
             @Override
             public void subscribe(ObservableEmitter<GalleryModel> emitter) throws Exception {
-                if (isThereInternetConnection()) {
+             if (isThereInternetConnection()) {
                     try {
-
-
                         service = retrofit.create(MockyService.class);
                         retrofit2.Response<GalleryModel> response = service.getGalleryModel().execute();
-                        Test t = new Test();
-                        res(response,t);
-
-
-                        //DebugLog.write(""+response.toString() + response.message() + response.code() + response.isSuccessful() + response.raw().toString());
-
-                     //   emitter.onNext((GalleryModel) response.body());
-                        //emitter.onNext(new GalleryModel());
-                     //   emitter.onComplete();
+                        final GalleryModel model = getGalleryModelFromApi(response);
+                        emitter.onNext(model);
+                        emitter.onComplete();
                     } catch (Exception ex) {
-                        DebugLog.write(ex.getCause() + " _ " + ex.getMessage());
-                        // show message , logging message
-                        emitter.onError(new TestException("SHOW THIS MESSAGE  ",  ex.getCause()));
+                        DebugLog.write(ex.getMessage() + " _ " + ex.getCause());
+                        emitter.onError(ex);
                     }
                 } else {
-                   // emitter.onError(new NetworkConnectionException("no internet!!!"));
-                    emitter.onError(new NetworkConnectionException());
+                    emitter.onError(new NetworkServiceException(true,ServiceErrorGenerator.SERVER_ERROR_MESSAGE,new Throwable(ServiceErrorGenerator.SERVER_ERROR_MESSAGE)));
                 }
             }
         });
@@ -197,17 +139,18 @@ public class MockyApiImpl implements MockyApi {
      * @return true device with internet connection, otherwise false.
      */
     private boolean isThereInternetConnection() {
-        boolean isConnected;
-
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
-
-        return isConnected;
+       return Utils.isThereInternetConnection(context);
     }
 
 
+
+
+    @SuppressWarnings("unchecked")
+    private GalleryModel getGalleryModelFromApi(final Response<GalleryModel> response) throws Exception {
+        ServiceResponse.ModelObjectResponse<GalleryModel> sm =  ServiceResponse.ModelObjectResponse.build(response);
+        return sm.requestSyncCall();
+
+    }
 
 
 }

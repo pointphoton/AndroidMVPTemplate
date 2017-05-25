@@ -6,10 +6,8 @@ package com.photon.templatemvp.di.modules;
 
 import android.content.Context;
 
-
 import com.photon.templatemvp.BuildConfig;
 import com.photon.templatemvp.application.TemplateApp;
-import com.photon.templatemvp.data.remote.ServiceGeneratorImpl;
 import com.photon.templatemvp.data.repository.gallery.GalleryDataRepository;
 import com.photon.templatemvp.data.repository.gallery.GalleryRepository;
 import com.photon.templatemvp.executor.JobExecutor;

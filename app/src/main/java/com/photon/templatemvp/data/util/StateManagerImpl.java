@@ -18,6 +18,6 @@ public class StateManagerImpl implements StateManager {
 
     @Override
     public boolean isConnect() {
-        return Utils.isConnected(context);
+        return false;
     }
 }

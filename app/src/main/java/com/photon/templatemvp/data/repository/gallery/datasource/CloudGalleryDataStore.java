@@ -1,7 +1,6 @@
 package com.photon.templatemvp.data.repository.gallery.datasource;
 
 
-
 import com.photon.templatemvp.data.cache.GalleryCache;
 import com.photon.templatemvp.data.model.gallery.GalleryModel;
 import com.photon.templatemvp.data.remote.MockyApi;
@@ -10,7 +9,6 @@ import com.photon.templatemvp.util.DebugLog;
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 
 /**
  * {@link GalleryDataStore} implementation based on connections to the api (Cloud).
