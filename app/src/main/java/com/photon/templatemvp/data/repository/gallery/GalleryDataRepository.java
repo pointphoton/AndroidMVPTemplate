@@ -21,7 +21,7 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 
 /**
- * {@link GalleryRepository} for retrieving user data.
+ * {@link GalleryRepository} for retrieving gallery data.
  */
 @Singleton
 public class GalleryDataRepository implements GalleryRepository {
@@ -40,7 +40,7 @@ public class GalleryDataRepository implements GalleryRepository {
     @Override
     public Observable<List<GalleryModel>> galleryModels() {
         DebugLog.write("this.galleryDataStoreFactory.createCloudDataStore()");
-        //we always get all users from the cloud
+        //we always get all galleries from the cloud
         final GalleryDataStore galleryDataStore = this.galleryDataStoreFactory.createCloudDataStore();
         return galleryDataStore.galleryModelList();
     }
