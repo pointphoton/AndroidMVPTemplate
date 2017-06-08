@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -57,6 +58,8 @@ public class GalleryFragment extends BaseFragment implements GalleryView {
     RelativeLayout rl_retry;
     @BindView(R.id.bt_retry)
     Button bt_retry;
+    @BindView(R.id.btnTest)
+    Button bt_reloadTest;
 
     private CarListListener carListListener;
     private Unbinder unbinder;
@@ -243,4 +246,11 @@ this.rl_progress.setVisibility(View.INVISIBLE);
             GalleryFragment.this.galleryPresenter.onCarClicked(car);
         }
     };
+
+
+    //test
+    @OnClick(R.id.btnTest)
+    void reload(){
+        loadCarList();
+    }
 }
